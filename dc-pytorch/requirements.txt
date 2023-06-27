@@ -1,0 +1,4 @@
+dataClay>=3.0
+PIL
+torch
+torchvision
