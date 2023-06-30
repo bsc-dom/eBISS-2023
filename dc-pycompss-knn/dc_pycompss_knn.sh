@@ -9,7 +9,7 @@ set -a
 
 module load python/3.10.2
 module load DATACLAY/Devel3Alex
-module load COMPSs/3.2
+module load COMPSs/3.1
 module load dislib
 
 echo "Starting dataClay"
@@ -36,4 +36,4 @@ launch_compss \
         --graph \
         --lang=python \
         --pythonpath=$PWD \
-                train_knn.py
+                knn_app.py

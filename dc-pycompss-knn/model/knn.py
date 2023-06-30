@@ -6,13 +6,13 @@ from sklearn.utils import validation
 from dislib.data.array import Array
 
 from pycompss.api.task import task
-from pycompss.api.parameter import IN, Depth, Type, COLLECTION_IN, INOUT
+from pycompss.api.parameter import COLLECTION_IN
 
-from .persistentfit import PersistentFitStructure, AllFitStructures
+from .persistentfit import PersistentFitStructure
 
 
-@task(returns=2)
-def _merge_kqueries(k, *queries):
+@task(returns=2, queries=COLLECTION_IN)
+def _merge_kqueries(k, queries):
     # Reorganize and flatten
     dist, ind = zip(*queries)
     aggr_dist = np.hstack(dist)
@@ -59,48 +59,27 @@ class DCKNNClassifier(BaseEstimator):
         if n_neighbors is None:
             n_neighbors = self.n_neighbors
         
-        distances = []
-        indices = []
+        queries = []
 
-        for q_row in x._iterator(axis=0):
-            queries = []
+        for nn_fit_struct in self._fit_data:
+            queries.append(nn_fit_struct.get_kneighbors(x, n_neighbors))
 
-            for nn_fit_struct in self._fit_data:
-                queries.append(nn_fit_struct.get_kneighbors(q_row._blocks, n_neighbors))
-
-            dist, ind = _merge_kqueries(n_neighbors, *queries)
-            distances.append([dist])
-            indices.append([ind])
-
-        ind_arr = Array(blocks=indices,
-                        top_left_shape=(x._top_left_shape[0], n_neighbors),
-                        reg_shape=(x._reg_shape[0], n_neighbors),
-                        shape=(x.shape[0], n_neighbors), sparse=False)
+        distances, indices = _merge_kqueries(n_neighbors, queries)
 
         if return_distance:
-            dst_arr = Array(blocks=distances,
-                            top_left_shape=(x._top_left_shape[0], n_neighbors),
-                            reg_shape=(x._reg_shape[0], n_neighbors),
-                            shape=(x.shape[0], n_neighbors), sparse=False)
-            return dst_arr, ind_arr
+            return distances, indices
 
-        return ind_arr
+        return indices
 
-    def _choose_label(self, vector):
+    def _choose_label_kernel(self, vector):
         labels = self.labels[vector]
         counts = np.bincount(labels)
         return np.argmax(counts)
+    
+    @task()
+    def choose_label(self, indices):
+        return np.apply_along_axis(self._choose_label_kernel, axis=1, arr=indices)
 
     def predict(self, x):
         neigh_ind = self.kneighbors(x, return_distance=False)
-        pred = np.apply_along_axis(self._choose_label, axis=0, arr=neigh_ind)
-        return pred
-
-    def store_fit_data(self, alias: str):
-        afs = AllFitStructures()
-        afs.make_persistent(alias=alias)
-        afs.nn = self._fit_data
-    
-    def load_fit_data(self, alias: str):
-        afs = AllFitStructures.get_by_alias(alias)
-        self._fit_data = afs.nn
+        return self.choose_label(neigh_ind)

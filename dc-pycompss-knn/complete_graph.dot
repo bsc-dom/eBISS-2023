@@ -1,0 +1,120 @@
+digraph {
+  newrank=true;
+  rankdir=TB;
+  labeljust="l";
+  compound= true;
+  subgraph dependence_graph {
+    ranksep=0.20;
+    node[height=0.75];
+
+Synchro0[label="main", shape=octagon, style=filled fillcolor="#8B0000" fontcolor="#FFFFFF"];
+1[shape=circle, style=filled fillcolor="#0000ff" fontcolor="#ffffff"];
+Synchro0 -> 1;
+2[shape=circle, style=filled fillcolor="#0000ff" fontcolor="#ffffff"];
+Synchro0 -> 2;
+3[shape=circle, style=filled fillcolor="#0000ff" fontcolor="#ffffff"];
+Synchro0 -> 3;
+4[shape=circle, style=filled fillcolor="#0000ff" fontcolor="#ffffff"];
+Synchro0 -> 4;
+5[shape=circle, style=filled fillcolor="#0000ff" fontcolor="#ffffff"];
+Synchro0 -> 5;
+Synchro1[label="barrier", shape=octagon, style=filled fillcolor="#ff0000" fontcolor="#FFFFFF"];
+Synchro0 -> Synchro1 [color=grey];
+6[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 6;
+7[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 7;
+8[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 8;
+9[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 9;
+10[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 10;
+11[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 11;
+12[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 12;
+13[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 13;
+14[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 14;
+15[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 15;
+16[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 16;
+17[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 17;
+18[shape=circle, style=filled fillcolor="#ffffff" fontcolor="#000000"];
+Synchro1 -> 18;
+19[shape=circle, style=filled fillcolor="#ff0000" fontcolor="#000000"];
+Synchro1 -> 19;
+10 -> 19 [label="[d20v2]",color="#024b30",penwidth=2];
+8 -> 19 [label="[d16v2]",color="#024b30",penwidth=2];
+9 -> 19 [label="[d18v2]",color="#024b30",penwidth=2];
+7 -> 19 [label="[d14v2]",color="#024b30",penwidth=2];
+16 -> 19 [label="[d32v2]",color="#024b30",penwidth=2];
+11 -> 19 [label="[d22v2]",color="#024b30",penwidth=2];
+15 -> 19 [label="[d30v2]",color="#024b30",penwidth=2];
+6 -> 19 [label="[d12v2]",color="#024b30",penwidth=2];
+13 -> 19 [label="[d26v2]",color="#024b30",penwidth=2];
+14 -> 19 [label="[d28v2]",color="#024b30",penwidth=2];
+18 -> 19 [label="[d36v2]",color="#024b30",penwidth=2];
+12 -> 19 [label="[d24v2]",color="#024b30",penwidth=2];
+17 -> 19 [label="[d34v2]",color="#024b30",penwidth=2];
+20[shape=circle, style=filled fillcolor="#ff00ae" fontcolor="#000000"];
+19 -> 20 [label="d51v2"];
+21[shape=circle, style=filled fillcolor="#ff00ae" fontcolor="#000000"];
+19 -> 21 [label="d51v2"];
+22[shape=circle, style=filled fillcolor="#ff00ae" fontcolor="#000000"];
+19 -> 22 [label="d51v2"];
+23[shape=circle, style=filled fillcolor="#ff00ae" fontcolor="#000000"];
+19 -> 23 [label="d51v2"];
+24[shape=circle, style=filled fillcolor="#ff00ae" fontcolor="#000000"];
+19 -> 24 [label="d51v2"];
+25[shape=circle, style=filled fillcolor="#b30000" fontcolor="#ffffff"];
+Synchro1 -> 25;
+24 -> 25 [label="[d60v2,d61v2]",color="#024b30",penwidth=2];
+20 -> 25 [label="[d52v2,d53v2]",color="#024b30",penwidth=2];
+21 -> 25 [label="[d54v2,d55v2]",color="#024b30",penwidth=2];
+22 -> 25 [label="[d56v2,d57v2]",color="#024b30",penwidth=2];
+23 -> 25 [label="[d58v2,d59v2]",color="#024b30",penwidth=2];
+26[shape=circle, style=filled fillcolor="#00ff00" fontcolor="#000000"];
+25 -> 26 [label="d69v2"];
+Synchro2[label="sync", shape=octagon, style=filled fillcolor="#ff0000" fontcolor="#FFFFFF"];
+Synchro1 -> Synchro2;
+26 -> Synchro2 [label="d71v2"];  }
+  subgraph legend {
+    rank=sink;
+    node [shape=plaintext, height=0.75];
+    ranksep=0.20;
+    label = "Legend";
+    key [label=<
+      <table border="0" cellpadding="2" cellspacing="0" cellborder="1">
+<tr>
+<td align="right">model.persistentfit.PersistentFitStructure.fit</td>
+<td bgcolor="#0000ff">&nbsp;</td>
+</tr>
+<tr>
+<td align="right">knn_app.prepare_image</td>
+<td bgcolor="#ffffff">&nbsp;</td>
+</tr>
+<tr>
+<td align="right">knn_app.stack_images</td>
+<td bgcolor="#ff0000">&nbsp;</td>
+</tr>
+<tr>
+<td align="right">model.persistentfit.PersistentFitStructure.get_kneighbors</td>
+<td bgcolor="#ff00ae">&nbsp;</td>
+</tr>
+<tr>
+<td align="right">model.knn._merge_kqueries</td>
+<td bgcolor="#b30000">&nbsp;</td>
+</tr>
+<tr>
+<td align="right">model.knn.DCKNNClassifier.choose_label</td>
+<td bgcolor="#00ff00">&nbsp;</td>
+</tr>
+      </table>
+    >]
+  }
+}
