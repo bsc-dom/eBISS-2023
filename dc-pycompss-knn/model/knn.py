@@ -48,6 +48,9 @@ class DCKNNClassifier(BaseEstimator):
         for row in x._iterator(axis=0):
             nn = PersistentFitStructure()
             nn.make_persistent()
+            #################
+            # fit is a task #
+            #################
             nn.fit(row._blocks, offset)
             self._fit_data.append(nn)
             # Carry the offset by counting samples
@@ -62,6 +65,10 @@ class DCKNNClassifier(BaseEstimator):
         queries = []
 
         for nn_fit_struct in self._fit_data:
+            ############################
+            # get_kneighbors is a task #
+            ############################
+            #                            /------------\
             queries.append(nn_fit_struct.get_kneighbors(x, n_neighbors))
 
         distances, indices = _merge_kqueries(n_neighbors, queries)
